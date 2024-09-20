@@ -1,15 +1,19 @@
-const ImageCard = ({ alt, likes, src, href }) => {
+import css from "./ImageCard.module.css";
+
+const ImageCard = ({ alt, likes, src, autor, portfolio }) => {
   return (
-    <li>
+    <div className={css.item}>
+      <img src={src} alt={alt} width="300" height="100" />
       <div>
-        <a href={href}>
-          <img src={src} alt={alt} />
+        <p>
+          Autor:<span>{autor}</span>
+        </p>
+        <a href={portfolio} target="_blank" rel="noopener noreferrer">
+          portfolio
         </a>
-        <div>
-          <p>{likes}</p>
-        </div>
+        <p>{likes}</p>
       </div>
-    </li>
+    </div>
   );
 };
 

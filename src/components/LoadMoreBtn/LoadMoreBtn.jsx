@@ -1,7 +1,7 @@
-const LoadMoreBtn = () => {
+const LoadMoreBtn = ({ onClick }) => {
   return (
     <>
-      <button>Load More</button>
+      <button onClick={onClick}>Load More</button>
     </>
   );
 };

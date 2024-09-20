@@ -3,16 +3,16 @@ import axios from "axios";
 axios.defaults.baseURL = "https://api.unsplash.com/";
 const myApiKey = "e8QJlpvoYOkzAb4I8erJIzKcbb52FDDff3lklNTfXzA";
 
-export const fetchPhotos = async () => {
+export const fetchImages = async (page, query) => {
   const { data } = await axios.get("/search/photos", {
     params: {
-      query: "fox",
-      page: 1,
-      per_page: 10,
+      query,
+      page,
+      per_page: 20,
       client_id: myApiKey,
       orientation: "landscape",
     },
   });
 
-  return data.results;
+  return data;
 };
