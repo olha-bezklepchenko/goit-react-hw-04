@@ -54,7 +54,7 @@ function App() {
   };
 
   const handleSetQuery = (searchValue) => {
-    setQuery(searchValue);
+    setQuery(searchValue.trim().toLowerCase());
     setImages([]);
     setPage(1);
     setNoResults(false);

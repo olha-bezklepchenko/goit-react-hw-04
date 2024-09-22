@@ -8,7 +8,7 @@ import {
 function formatText(text) {
   return text
     .toLowerCase()
-    .replace(/(^\w|\s\w)/g, (match) => match.toUpperCase());
+    .replace(/(^\w{1})|(\s+\w{1})/g, (match) => match.toUpperCase());
 }
 
 const ImageCard = ({ alt, likes, src, autor, portfolio }) => {

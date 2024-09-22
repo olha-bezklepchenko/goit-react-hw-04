@@ -9,7 +9,7 @@ const SearchBar = ({ setQuery }) => {
   };
 
   const handleSubmit = (values) => {
-    if (!values.query.trim()) {
+    if (!values.query) {
       toast.error("Please enter a search term.");
       return;
     }
