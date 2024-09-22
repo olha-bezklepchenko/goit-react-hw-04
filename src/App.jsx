@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { fetchImages } from "./services/api";
-
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import SearchBar from "./components/SearchBar/SearchBar";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import ImageModal from "./components/ImageModal/ImageModal";
 
 function App() {
   const [images, setImages] = useState([]);
@@ -16,6 +16,7 @@ function App() {
   const [isError, setIsError] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     if (!query) {
@@ -45,6 +46,10 @@ function App() {
   }, [page, query]);
 
   const handleChangePage = () => {
+    if (page === totalPages && page !== 0) {
+      toast.success("You've reached the end of the gallery");
+      return;
+    }
     setPage((prev) => prev + 1);
   };
 
@@ -55,11 +60,31 @@ function App() {
     setNoResults(false);
   };
 
+  const handleIsModalOpen = (image) => {
+    setSelectedImage(image);
+  };
+
+  const handleOnModalClose = () => {
+    setSelectedImage(null);
+  };
+
   return (
     <>
-      <Toaster />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: "#bfdff5",
+            color: "#19005f",
+          },
+        }}
+      />
       <SearchBar setQuery={handleSetQuery} />
-      {images.length > 0 && <ImageGallery images={images} />}
+
+      {images.length > 0 && (
+        <ImageGallery images={images} onImageClick={handleIsModalOpen} />
+      )}
+      {isLoading && <Loader />}
       {isError && (
         <ErrorMessage
           title="Something went wrong..."
@@ -67,15 +92,22 @@ function App() {
         or try again later."
         />
       )}
-      {noResults && (
+      {noResults && !isLoading && !isError && (
         <ErrorMessage
           title="No results found"
           message="Please try a different search term."
         />
       )}
-      {isLoading && <Loader />}
+
       {images.length > 0 && page < totalPages && (
         <LoadMoreBtn onClick={handleChangePage} />
+      )}
+      {selectedImage && (
+        <ImageModal
+          isOpen={!!selectedImage}
+          onClose={handleOnModalClose}
+          image={selectedImage}
+        />
       )}
     </>
   );

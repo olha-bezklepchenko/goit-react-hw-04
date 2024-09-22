@@ -8,7 +8,7 @@ export const fetchImages = async (page, query) => {
     params: {
       query,
       page,
-      per_page: 20,
+      per_page: 12,
       client_id: myApiKey,
       orientation: "landscape",
     },
